@@ -15,13 +15,13 @@ jobs:
         channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
         payload: |
           {
-            "text": "**GitHub Action** _message_!\n${{ inputs.appendText }}",
+            "text": "text: *bold* _italic_ `code`\n```\nfence\n```\n${{ inputs.appendText }}",
             "blocks": [
               {
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": "**GitHub Action** _message_!\n${{ inputs.appendText }}"
+                  "text": "block: *bold* _italic_ `code`\n```\nfence\n```\n${{ inputs.appendText }}"
                 }
               }
             ]
