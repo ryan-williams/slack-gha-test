@@ -1,19 +1,30 @@
 on:
   workflow_dispatch:
     inputs:
-      append:
+      appendText:
         description: Text to append to the posted message
 jobs:
   post:
     name: Publish to Slack
     runs-on: ubuntu-latest
     steps:
-    - name: Send custom JSON data to Slack workflow
+    - name: Post to a Slack channel
+      id: slack
       uses: slackapi/slack-github-action@v1.24.0
       with:
+        channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
         payload: |
           {
-            "text": "Sample text, *bold1* **bold2** _italic_ `code` [link](https://github.com/slackapi/slack-github-action)\n```code fence```\n${{ inputs.append }}"
+            "text": "**GitHub Action** _message_!\n${{ inputs.appendText }}",
+            "blocks": [
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "**GitHub Action** _message_!\n${{ inputs.appendText }}"
+                }
+              }
+            ]
           }
       env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
